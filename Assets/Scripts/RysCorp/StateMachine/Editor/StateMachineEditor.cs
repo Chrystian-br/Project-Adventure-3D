@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
 [CustomEditor(typeof(FSMExample))]
 public class StateMachineEditor : Editor
@@ -37,7 +33,7 @@ public class StateMachineEditor : Editor
 
                 for(int i = 0; i < keys.Length; i++)
                 {
-                    EditorGUILayout.LabelField(String.Format("{0} :: {1}", keys[i], values[i]));
+                    EditorGUILayout.LabelField(string.Format("{0} :: {1}", keys[i], values[i]));
                 }
             }
             
