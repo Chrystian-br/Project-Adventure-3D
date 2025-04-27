@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using RysCorp.StateMachine;
 using UnityEngine;
 
-public class PlayerStateRunning : StateBase
+public class PlayerStateShooting : StateBase
 {
     // Start is called before the first frame update
     void Start()

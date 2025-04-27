@@ -10,13 +10,13 @@ public class PlayerStateController : MonoBehaviour
         {
             IDLE,
             WALKING,
-            RUNNING,
+            SHOOTING,
             DEAD
         }
 
         public StateMachine<PlayerStates> stateMachine;
 
-        public Animator animator;
+        protected Player player;
     #endregion
      
      
@@ -28,7 +28,7 @@ public class PlayerStateController : MonoBehaviour
 
             stateMachine.RegisterStates(PlayerStates.IDLE, new PlayerStateIdle());
             stateMachine.RegisterStates(PlayerStates.WALKING, new PlayerStateWalking());
-            stateMachine.RegisterStates(PlayerStates.RUNNING, new PlayerStateRunning());
+            stateMachine.RegisterStates(PlayerStates.SHOOTING, new PlayerStateShooting());
             stateMachine.RegisterStates(PlayerStates.DEAD, new PlayerStateDead());
 
             stateMachine.SwitchState(PlayerStates.IDLE);
