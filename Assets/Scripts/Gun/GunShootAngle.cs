@@ -21,7 +21,7 @@ public class GunShootAngle : GunShootLimit
             {
                 mult++;
             }
-
+            Debug.Log("atirou");
             var projectile = Instantiate(prefabProjectile, positionToShoot);
             projectile.transform.localPosition = Vector3.zero;
             projectile.transform.localEulerAngles = Vector3.zero + Vector3.up * (i%2 == 0 ? angle : -angle) * mult;
