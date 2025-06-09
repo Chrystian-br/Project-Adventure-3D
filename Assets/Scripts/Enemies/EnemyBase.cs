@@ -9,86 +9,117 @@ namespace Enemy
     public class EnemyBase : MonoBehaviour, IDamageable
     {
         #region VARIAVEIS
-            public Collider coll;
+        public Collider coll;
 
-            public float startLife = 10f;
+        public float startLife = 10f;
+        public bool lookAtPlayer = false;
 
-            public ParticleSystem pSystem;
-            public FlashColor flashColor;
+        public ParticleSystem pSystem;
+        public FlashColor flashColor;
 
-            private float _currentLife;
+        private float _currentLife;
+        private Player _player;
 
-            [SerializeField] private AnimationBase _animationBase;
+        [SerializeField] private AnimationBase _animationBase;
 
-            [Header("Start Animation")]
-            public float startAnimationDuration = .2f;
-            public Ease startAnimationEase = Ease.OutBack;
-            public bool startWithBornAnimation = true;
+        [Header("Start Animation")]
+        public float startAnimationDuration = .2f;
+        public Ease startAnimationEase = Ease.OutBack;
+        public bool startWithBornAnimation = true;
         #endregion
-         
-         
+
+
         #region METODOS
-            protected virtual void Init()
+        protected virtual void Init()
+        {
+            ResetLife();
+            if (startWithBornAnimation) BornAnimation();
+        }
+
+        protected virtual void ResetLife()
+        {
+            _currentLife = startLife;
+        }
+
+        protected virtual void Kill()
+        {
+
+            OnKill();
+        }
+
+        protected virtual void OnKill()
+        {
+            if (coll != null) coll.enabled = false;
+            PlayAnimationByTrigger(AnimationType.DEATH);
+            Destroy(gameObject, 3f);
+        }
+
+        public void OnDamage(float f)
+        {
+            if (flashColor != null) flashColor.Flash();
+            if (pSystem != null) pSystem.Emit(15);
+
+            _currentLife -= f;
+
+            if (_currentLife <= 0)
             {
-                ResetLife();
-                if(startWithBornAnimation) BornAnimation();
+                Kill();
             }
+        }
 
-            protected virtual void ResetLife()
+        public void Damage(float damage)
+        {
+            OnDamage(damage);
+        }
+
+        public void Damage(float damage, Vector3 dir)
+        {
+            OnDamage(damage);
+            transform.DOMove(transform.position - dir, .1f);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Player p = collision.transform.GetComponent<Player>();
+
+            if (p != null)
             {
-                _currentLife = startLife;
+                p.Damage(1);
             }
+        }
 
-            protected virtual void Kill()
-            {
-                
-                OnKill();
-            }
+        #region ANIMAÇÕES
+        private void BornAnimation()
+        {
+            transform.DOScale(0, startAnimationDuration).SetEase(startAnimationEase).From();
+        }
 
-            protected virtual void OnKill()
-            {
-                if(coll != null) coll.enabled = false;
-                PlayAnimationByTrigger(AnimationType.DEATH);
-                Destroy(gameObject, 3f);
-            }
-
-            public void OnDamage(float f)
-            {
-                if(flashColor != null) flashColor.Flash();
-                if (pSystem != null) pSystem.Emit(15);
-
-                _currentLife -= f;
-
-                if(_currentLife <= 0)
-                {
-                    Kill();
-                }
-            }
-
-            public void Damage(float damage)
-            {
-                OnDamage(damage);
-            }
-
-            #region ANIMAÇÕES
-                private void BornAnimation()
-                {
-                    transform.DOScale(0, startAnimationDuration).SetEase(startAnimationEase).From();
-                }
-
-                public void PlayAnimationByTrigger(AnimationType animationType)
-                {
-                    _animationBase.PlayAnimationByTrigger(animationType);
-                }
-            #endregion
+        public void PlayAnimationByTrigger(AnimationType animationType)
+        {
+            _animationBase.PlayAnimationByTrigger(animationType);
+        }
+        #endregion
         #endregion
 
 
         #region UNITY-METODOS
-            private void Awake()
+        private void Awake()
+        {
+            Init();
+        }
+
+        private void Start()
+        {
+            _player = GameObject.FindObjectOfType<Player>();   
+        }
+
+        public virtual void Update()
+        {
+            if (lookAtPlayer)
             {
-                Init();
+                transform.LookAt(_player.transform.position);
             }
+        }
         #endregion
     }
 }

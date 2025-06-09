@@ -9,20 +9,37 @@ public class ProjectileBase : MonoBehaviour
 
         public int damageAmount = 1;
         public float speed = 50f;
+
+        public List<string> tagsToHit;
     #endregion
 
 
     #region METODOS
-        public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
+    {
+        foreach (var t in tagsToHit)
         {
-            var damageable = collision.transform.GetComponent<IDamageable>();
-
-            if(damageable != null)
+            if (collision.transform.tag == t)
             {
-                damageable.Damage(damageAmount);
-                Destroy(gameObject);
+                var damageable = collision.transform.GetComponent<IDamageable>();
+
+                if (damageable != null)
+                {
+                    Vector3 dir = collision.transform.position - transform.position;
+                    dir = -dir.normalized;
+                    dir.y = 0;
+
+                    damageable.Damage(damageAmount, dir);
+
+                    Destroy(gameObject);
+                }
+
+                break;
             }
         }
+        
+
+    }
     #endregion
 
 
