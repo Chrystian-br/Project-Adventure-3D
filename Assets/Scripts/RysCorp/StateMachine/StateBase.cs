@@ -6,19 +6,19 @@ namespace RysCorp.StateMachine
 {
     public class StateBase
     {
-        public virtual void OnStateEnter(object o = null)
+        public virtual void OnStateEnter(params object[] objs)
         {
-            Debug.Log("State Enter");
+            //Debug.Log("State Enter");
         }
 
         public virtual void OnStateStay()
         {
-            Debug.Log("State Stay");
+            //Debug.Log("State Stay");
         }
 
         public virtual void OnStateExit()
         {
-            Debug.Log("State Exit");
+            //Debug.Log("State Exit");
         }
     }
 }

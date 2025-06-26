@@ -4,9 +4,9 @@ using RysCorp.StateMachine;
 
 public class PlayerStateWalking : StateBase
 {
-    public override void OnStateEnter(object o = null)
+    public override void OnStateEnter(params object[] objs)
     {
-        base.OnStateEnter(o);
+        base.OnStateEnter(objs);
     }
 
     public override void OnStateExit()

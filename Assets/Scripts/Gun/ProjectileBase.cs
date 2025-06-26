@@ -37,8 +37,6 @@ public class ProjectileBase : MonoBehaviour
                 break;
             }
         }
-        
-
     }
     #endregion
 
