@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class HealthBase : MonoBehaviour
+public class HealthBase : MonoBehaviour, IDamageable
 {
     #region VARIAVEIS
     public float startLife = 100f;
@@ -13,6 +14,8 @@ public class HealthBase : MonoBehaviour
 
     public Action<HealthBase> OnDamage;
     public Action<HealthBase> OnKill;
+
+    public List<UIFillUpdater> uIHealthUpdater;
     #endregion
 
 
@@ -37,13 +40,34 @@ public class HealthBase : MonoBehaviour
         {
             Kill();
         }
-
+        UpdateUI();
         OnDamage?.Invoke(this);
     }
-    #endregion 
-     
-     
+
+    public void Damage(float damage, Vector3 dir)
+    {
+        Damage(damage);
+    }
+
+    private void UpdateUI()
+    {
+        if (uIHealthUpdater != null)
+        {
+            uIHealthUpdater.ForEach(i => i.UpdateValue((float)_currentLife / startLife));
+        }
+    }
+    #endregion
+
+
     #region UNITY-METODOS
-     
+    private void Awake()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
+        ResetLife();
+    }
     #endregion
 }

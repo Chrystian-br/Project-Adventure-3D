@@ -94,10 +94,14 @@ namespace Boss {
         }
         #endregion
 
-
         private void OnBossKill(HealthBase h)
         {
             stateMachine.SwitchState(BossAction.DEATH);
+        }
+
+        public void OnValidate()
+        {
+            if (healthBase == null) healthBase = GetComponent<HealthBase>();            
         }
         #endregion
 
@@ -106,6 +110,7 @@ namespace Boss {
         private void Awake()
         {
             Init();
+            OnValidate();
             healthBase.OnKill += OnBossKill;
         }
 
