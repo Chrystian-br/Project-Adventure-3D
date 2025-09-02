@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RysCorp.StateMachine;
+using NaughtyAttributes;
 
 public class Player : MonoBehaviour//, IDamageable
 {
     #region VARIAVEIS
+    public SkinnedMeshRenderer skinnedMeshRenderer;
     public Animator animator;
     public List<Collider> colliders;
 
@@ -54,9 +56,49 @@ public class Player : MonoBehaviour//, IDamageable
             _isAlive = false;
             animator.SetTrigger("Death");
             colliders.ForEach(i => i.enabled = false);
+
+            StartCoroutine(timeToRespawn());
         }
     }
     #endregion
+
+    [NaughtyAttributes.Button]
+    public void Respawn()
+    {
+        if (CheckPointManager.Instance.HasCheckpoint())
+        {
+            transform.position = CheckPointManager.Instance.GetPositionFromLastCheckPoint();
+
+            _isAlive = true;
+            animator.SetTrigger("Idle");
+
+            healthBase.ResetLife();
+    
+            Imortal();            
+        }
+    }
+
+    IEnumerator timeToRespawn()
+    {
+        yield return new WaitForSeconds(2);
+        Respawn();
+    }
+
+    public void Imortal()
+    {
+        colliders.ForEach(i => i.enabled = false);
+        skinnedMeshRenderer.material.SetColor("_EmissionColor", Color.yellow);
+
+        StartCoroutine(TimeToBecomeMortal());
+    }
+
+    IEnumerator TimeToBecomeMortal()
+    {
+        yield return new WaitForSeconds(5);
+
+        colliders.ForEach(i => i.enabled = true);
+        skinnedMeshRenderer.material.SetColor("_EmissionColor", Color.white);
+    }
     #endregion
 
 

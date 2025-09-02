@@ -20,7 +20,7 @@ public class HealthBase : MonoBehaviour, IDamageable
 
 
     #region METODOS
-    protected void ResetLife()
+    public void ResetLife()
     {
         _currentLife = startLife;
     }
