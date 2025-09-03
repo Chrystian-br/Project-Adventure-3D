@@ -20,7 +20,7 @@ namespace Boss {
     {
         #region VARIAVEIS
         public Transform player;
-        public AreaBase bossArea;
+        public BossArea bossArea;
         public float speed = 5f;
         public List<Transform> waypoints;
 

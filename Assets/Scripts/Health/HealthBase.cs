@@ -8,7 +8,7 @@ public class HealthBase : MonoBehaviour, IDamageable
 {
     #region VARIAVEIS
     public float startLife = 100f;
-    [SerializeField] private float _currentLife;
+    [HideInInspector] public float _currentLife;
 
     public bool destroyOnKill = false;
 

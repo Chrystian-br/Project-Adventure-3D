@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RysCorp.StateMachine;
 using NaughtyAttributes;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Player : MonoBehaviour//, IDamageable
 {
@@ -32,6 +33,8 @@ public class Player : MonoBehaviour//, IDamageable
     public HealthBase healthBase;
 
     private bool _isAlive = true;
+
+    private FloatParameter _intense = new FloatParameter();
     #endregion
 
 
@@ -47,6 +50,14 @@ public class Player : MonoBehaviour//, IDamageable
     public void Damage(HealthBase h)
     {
         flashColors.ForEach(i => i.Flash());
+        EffectsManager.Instance.ChangeVignetteColor();
+
+        if (h._currentLife < (h.startLife / 1.5))
+        {
+            _intense.value = 0.35f;
+
+            EffectsManager.Instance.ChangeVignetteIntensity(_intense);
+        }
     }
 
     private void OnKill(HealthBase h)
@@ -73,8 +84,11 @@ public class Player : MonoBehaviour//, IDamageable
             animator.SetTrigger("Idle");
 
             healthBase.ResetLife();
+
+            _intense.value = 0.3f;
+            EffectsManager.Instance.ChangeVignetteIntensity(_intense);
     
-            Imortal();            
+            Imortal();       
         }
     }
 
