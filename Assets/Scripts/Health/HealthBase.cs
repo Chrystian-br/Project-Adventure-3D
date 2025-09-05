@@ -8,7 +8,7 @@ public class HealthBase : MonoBehaviour, IDamageable
 {
     #region VARIAVEIS
     public float startLife = 100f;
-    [HideInInspector] public float _currentLife;
+    public float _currentLife;
 
     public bool destroyOnKill = false;
 
@@ -23,6 +23,11 @@ public class HealthBase : MonoBehaviour, IDamageable
     public void ResetLife()
     {
         _currentLife = startLife;
+    }
+
+    public void RecoverLife(int value)
+    {
+        _currentLife += value;
     }
 
     protected virtual void Kill()
@@ -49,7 +54,7 @@ public class HealthBase : MonoBehaviour, IDamageable
         Damage(damage);
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         if (uIHealthUpdater != null)
         {

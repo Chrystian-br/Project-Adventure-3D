@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Items;
 
 public class GunShootLimit : GunBase
 {
@@ -11,6 +12,8 @@ public class GunShootLimit : GunBase
     public float maxShoot = 5f;
     public float timeToRecharge = 1f;
 
+    public SOInt munition;
+
     private float _currentShoots;
     private bool _recharging = false;
     #endregion
@@ -19,11 +22,11 @@ public class GunShootLimit : GunBase
     #region METODOS
     protected override IEnumerator ShootCoroutine()
     {
-        if(_recharging) yield break;
+        if (_recharging) yield break;
 
-        while(true)
+        while (true)
         {
-            if(_currentShoots < maxShoot)
+            if (_currentShoots < maxShoot)
             {
                 Shoot();
                 _currentShoots++;
@@ -31,15 +34,18 @@ public class GunShootLimit : GunBase
                 UpdateUI();
                 yield return new WaitForSeconds(timeBetweenShoot);
             }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
     private void CheckRecharge()
     {
-        if(_currentShoots >= maxShoot)
+        if (_currentShoots >= maxShoot)
         {
             StopShoot();
-            StartRecharge();
         }
     }
 
@@ -53,11 +59,11 @@ public class GunShootLimit : GunBase
     {
         float time = 0;
 
-        while(time < timeToRecharge)
+        while (time < timeToRecharge)
         {
             time += Time.deltaTime;
             Debug.Log("Recharging:" + time + "s");
-            uIGunUpdaters.ForEach(i => i.UpdateValue(time/timeToRecharge));
+            uIGunUpdaters.ForEach(i => i.UpdateValue(time / timeToRecharge));
             yield return new WaitForEndOfFrame();
         }
 
@@ -69,7 +75,7 @@ public class GunShootLimit : GunBase
     {
         uIGunUpdaters.ForEach(i => i.UpdateValue(maxShoot, _currentShoots));
     }
-        
+
 
     private void GetAllUIs()
     {
@@ -90,6 +96,19 @@ public class GunShootLimit : GunBase
     public void Awake()
     {
         GetAllUIs();
+        munition = ItemsManager.Instance.itemSetups.Find(i => i.itemType == ItemType.MUNITION).soInt;
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (munition.count > 0)
+            {
+                StartRecharge();
+                munition.count--;
+            }
+        }
     }
     #endregion
 }

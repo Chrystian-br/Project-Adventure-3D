@@ -27,6 +27,8 @@ namespace Boss {
         public HealthBase healthBase;
         private StateMachine<BossAction> stateMachine;
 
+        public GameObject bossHealthBar;
+
         [Header("Animation")]
         public float startAnimationDuration = .5f;
         public Ease startAnimationEase = Ease.OutBack;
@@ -96,6 +98,7 @@ namespace Boss {
 
         private void OnBossKill(HealthBase h)
         {
+            bossHealthBar.SetActive(false);
             stateMachine.SwitchState(BossAction.DEATH);
         }
 

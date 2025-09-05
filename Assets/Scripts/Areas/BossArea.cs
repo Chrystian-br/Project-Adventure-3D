@@ -11,6 +11,7 @@ public class BossArea : MonoBehaviour
     public GameObject bossCamera;
     
     public Color gizmoColor = Color.yellow;
+    public GameObject bossHealthBar;
     #endregion
 
 
@@ -28,6 +29,8 @@ public class BossArea : MonoBehaviour
             lookAtPlayer = true;
 
             TurnCameraOn();
+
+            bossHealthBar.SetActive(true);
         }
     }
 

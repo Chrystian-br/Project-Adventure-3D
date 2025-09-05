@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Animation;
+using Items;
 
 namespace Enemy
 {
@@ -43,8 +44,8 @@ namespace Enemy
 
         protected virtual void Kill()
         {
-
             OnKill();
+            ItemsManager.Instance.AddItemByType(ItemType.KILLS, 1);
         }
 
         protected virtual void OnKill()
@@ -52,6 +53,7 @@ namespace Enemy
             if (coll != null) coll.enabled = false;
             PlayAnimationByTrigger(AnimationType.DEATH);
             Destroy(gameObject, 3f);
+
         }
 
         public void OnDamage(float f)

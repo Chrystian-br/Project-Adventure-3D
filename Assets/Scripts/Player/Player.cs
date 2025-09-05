@@ -4,8 +4,9 @@ using UnityEngine;
 using RysCorp.StateMachine;
 using NaughtyAttributes;
 using UnityEngine.Rendering.PostProcessing;
+using RysCorp.Core.Singleton;
 
-public class Player : MonoBehaviour//, IDamageable
+public class Player : Singleton<Player>//, IDamageable
 {
     #region VARIAVEIS
     public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour//, IDamageable
 
     [Header("Flash")]
     public List<FlashColor> flashColors;
+    public Color damageColor = Color.red;
 
     [Header("Life")]
     public HealthBase healthBase;
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour//, IDamageable
     #region LIFE
     public void Damage(HealthBase h)
     {
-        flashColors.ForEach(i => i.Flash());
+        flashColors.ForEach(i => i.Flash(damageColor));
         EffectsManager.Instance.ChangeVignetteColor();
 
         if (h._currentLife < (h.startLife / 1.5))
@@ -117,8 +119,9 @@ public class Player : MonoBehaviour//, IDamageable
 
 
     #region UNITY-METODOS
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         OnValidate();
         healthBase.OnDamage += Damage;
         healthBase.OnKill += OnKill;
