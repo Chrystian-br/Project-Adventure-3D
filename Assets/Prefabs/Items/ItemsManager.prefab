@@ -50,7 +50,7 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: de085835d504f71449418b1ac8036134, type: 3}
   - itemType: 1
     soInt: {fileID: 11400000, guid: 652e3b499d7739e49bf45b7c62b09d85, type: 2}
-    icon: {fileID: 21300000, guid: e2456b5350726e24fb4a4e27f0fbb058, type: 3}
+    icon: {fileID: 21300000, guid: 8e82c41fb718a2c4b92b4c6fb01a5e8d, type: 3}
   - itemType: 2
     soInt: {fileID: 11400000, guid: f61d4633b51219b4c91ef6ed0686fc37, type: 2}
     icon: {fileID: 21300000, guid: 823c9b6a9741eb346bbafaaef9331448, type: 3}
@@ -61,5 +61,7 @@ MonoBehaviour:
   - {fileID: 0}
   killText:
   - {fileID: 0}
+  lifePackText: []
   inventory: {fileID: 0}
   baseUI: {fileID: 0}
+  initialMunition: 5

@@ -21,6 +21,7 @@ namespace Items
 
         public List<TextMeshProUGUI> coinText;
         public List<TextMeshProUGUI> killText;
+        public List<TextMeshProUGUI> lifePackText;
 
         public GameObject inventory;
         public GameObject baseUI;
@@ -38,13 +39,11 @@ namespace Items
             }
 
             itemSetups.Find(i => i.itemType == ItemType.MUNITION).soInt.count = initialMunition;
-            UpdateUI();
         }
 
         public void AddItemByType(ItemType itemType, int amount = 1)
         {
             itemSetups.Find(i => i.itemType == itemType).soInt.count += amount;
-            UpdateUI();
         }
 
         public void RemoveItemByType(ItemType itemType, int amount = -1)
@@ -76,6 +75,14 @@ namespace Items
                     foreach (var c in coinText)
                     {
                         c.text = i.soInt.count.ToString();
+                    }
+                }
+
+                if (i.itemType == ItemType.LIFE_PACK)
+                {
+                    foreach (var l in lifePackText)
+                    {
+                        l.text = i.soInt.count.ToString();
                     }
                 }
             }
@@ -117,6 +124,8 @@ namespace Items
                     CloseInventory();
                 }
             }
+
+            UpdateUI();
         }
         #endregion
     }
