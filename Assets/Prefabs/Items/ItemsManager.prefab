@@ -50,13 +50,13 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: de085835d504f71449418b1ac8036134, type: 3}
   - itemType: 1
     soInt: {fileID: 11400000, guid: 652e3b499d7739e49bf45b7c62b09d85, type: 2}
-    icon: {fileID: 21300000, guid: 8e82c41fb718a2c4b92b4c6fb01a5e8d, type: 3}
+    icon: {fileID: 21300000, guid: b8be832644d8ec343b2f999089a964ca, type: 3}
   - itemType: 2
     soInt: {fileID: 11400000, guid: f61d4633b51219b4c91ef6ed0686fc37, type: 2}
     icon: {fileID: 21300000, guid: 823c9b6a9741eb346bbafaaef9331448, type: 3}
   - itemType: 3
     soInt: {fileID: 11400000, guid: 9de4b6dda6765a5448a762ee9474f714, type: 2}
-    icon: {fileID: 21300000, guid: d0ffa918099b8734cadc45e3f6f5d01b, type: 3}
+    icon: {fileID: 21300000, guid: f798966081db7504cb3f9f9b80d0b30e, type: 3}
   coinText:
   - {fileID: 0}
   killText:

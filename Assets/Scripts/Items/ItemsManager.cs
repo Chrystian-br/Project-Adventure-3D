@@ -19,10 +19,6 @@ namespace Items
         #region VARIAVEIS
         public List<ItemSetup> itemSetups;
 
-        public List<TextMeshProUGUI> coinText;
-        public List<TextMeshProUGUI> killText;
-        public List<TextMeshProUGUI> lifePackText;
-
         public GameObject inventory;
         public GameObject baseUI;
 
@@ -62,29 +58,7 @@ namespace Items
         {
             foreach (var i in itemSetups)
             {
-                if (i.itemType == ItemType.KILLS)
-                {
-                    foreach (var k in killText)
-                    {
-                        k.text = i.soInt.count.ToString();
-                    }
-                }
-
-                if (i.itemType == ItemType.COIN)
-                {
-                    foreach (var c in coinText)
-                    {
-                        c.text = i.soInt.count.ToString();
-                    }
-                }
-
-                if (i.itemType == ItemType.LIFE_PACK)
-                {
-                    foreach (var l in lifePackText)
-                    {
-                        l.text = i.soInt.count.ToString();
-                    }
-                }
+                i.itemText.text = i.soInt.count.ToString();
             }
         }
 
@@ -136,5 +110,6 @@ namespace Items
         public ItemType itemType;
         public SOInt soInt;
         public Sprite icon;
+        public TextMeshProUGUI itemText;
     }
 }
