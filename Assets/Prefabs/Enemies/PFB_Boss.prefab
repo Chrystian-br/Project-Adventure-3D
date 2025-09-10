@@ -211,7 +211,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   healthBase: {fileID: 3042660078568330183}
+  bossHealthBar: {fileID: 0}
   startAnimationDuration: 0.5
   startAnimationEase: 27
   attackAmount: 5

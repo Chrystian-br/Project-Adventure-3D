@@ -157,6 +157,7 @@ MonoBehaviour:
   tagsToHit:
   - Enemy
   - Boss
+  - Destructable
 --- !u!54 &6836378338398484349
 Rigidbody:
   m_ObjectHideFlags: 0

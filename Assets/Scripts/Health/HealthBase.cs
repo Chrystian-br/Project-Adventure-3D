@@ -49,6 +49,12 @@ public class HealthBase : MonoBehaviour, IDamageable
         OnDamage?.Invoke(this);
     }
 
+    [NaughtyAttributes.Button]
+    public void DebugDamage()
+    {
+        Damage(5);
+    }
+     
     public void Damage(float damage, Vector3 dir)
     {
         Damage(damage);

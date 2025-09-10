@@ -75,7 +75,6 @@ public class Player : Singleton<Player>//, IDamageable
     }
     #endregion
 
-    [NaughtyAttributes.Button]
     public void Respawn()
     {
         if (CheckPointManager.Instance.HasCheckpoint())
@@ -125,6 +124,8 @@ public class Player : Singleton<Player>//, IDamageable
         OnValidate();
         healthBase.OnDamage += Damage;
         healthBase.OnKill += OnKill;
+
+        
     }
 
 

@@ -30,7 +30,7 @@ namespace Items
         protected virtual void Collect()
         {
             OnCollect();
-            Invoke("AutoDestroy", 3f);
+            Destroy(gameObject);
         }
 
         protected virtual void OnCollect()
@@ -39,11 +39,6 @@ namespace Items
             if (audioSource != null) audioSource.Play();
 
             ItemsManager.Instance.AddItemByType(itemType, amount);
-        }
-
-        private void AutoDestroy()
-        {
-            Destroy(gameObject);
         }
         #endregion
 
