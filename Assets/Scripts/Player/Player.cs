@@ -5,6 +5,7 @@ using RysCorp.StateMachine;
 using NaughtyAttributes;
 using UnityEngine.Rendering.PostProcessing;
 using RysCorp.Core.Singleton;
+using Cloth;
 
 public class Player : Singleton<Player>//, IDamageable
 {
@@ -34,9 +35,14 @@ public class Player : Singleton<Player>//, IDamageable
     [Header("Life")]
     public HealthBase healthBase;
 
+    [Space]
+    [SerializeField] private ClothChanger _clothChanger;
+
     private bool _isAlive = true;
 
     private FloatParameter _intense = new FloatParameter();
+
+    private float _imortalDuration = 5f;
     #endregion
 
 
@@ -101,7 +107,8 @@ public class Player : Singleton<Player>//, IDamageable
 
     public void Imortal()
     {
-        colliders.ForEach(i => i.enabled = false);
+        healthBase.ChangeDamageMultiplier(0, _imortalDuration);
+        colliders.ForEach(i => i.enabled = true);
         skinnedMeshRenderer.material.SetColor("_EmissionColor", Color.yellow);
 
         StartCoroutine(TimeToBecomeMortal());
@@ -109,10 +116,38 @@ public class Player : Singleton<Player>//, IDamageable
 
     IEnumerator TimeToBecomeMortal()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(_imortalDuration);
 
-        colliders.ForEach(i => i.enabled = true);
         skinnedMeshRenderer.material.SetColor("_EmissionColor", Color.white);
+    }
+
+    public void ChangeSpeed(float speed, float duration)
+    {
+        StartCoroutine(ChangeSpeedCoroutine(speed, duration));
+    }
+
+    IEnumerator ChangeSpeedCoroutine(float localSpeed, float duration)
+    {
+        var defaultSpeed = speed;
+        speed *= localSpeed;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = defaultSpeed;
+    }
+
+    public void ChangeTexture(ClothSetup setup, float duration)
+    {
+        StartCoroutine(ChangeTextureCoroutine(setup, duration));
+    }
+
+    IEnumerator ChangeTextureCoroutine(ClothSetup setup, float duration)
+    {
+        _clothChanger.ChangeTexture(setup);
+
+        yield return new WaitForSeconds(duration);
+
+        _clothChanger.ResetTexture();
     }
     #endregion
 
@@ -124,8 +159,6 @@ public class Player : Singleton<Player>//, IDamageable
         OnValidate();
         healthBase.OnDamage += Damage;
         healthBase.OnKill += OnKill;
-
-        
     }
 
 
