@@ -12,6 +12,8 @@ public class FlashColor : MonoBehaviour
     public Color color = Color.red;
     public float duration = .1f;
 
+    public string colorParameter = "_EmissionColor";
+
     private Color _defaultColor;
     private Tween _currTween;
     #endregion
@@ -25,12 +27,12 @@ public class FlashColor : MonoBehaviour
 
         if (meshRenderer != null && !_currTween.IsActive())
         {
-            _currTween = meshRenderer.material.DOColor(c, "_EmissionColor", duration).SetLoops(2, LoopType.Yoyo);
+            _currTween = meshRenderer.material.DOColor(c, colorParameter, duration).SetLoops(2, LoopType.Yoyo);
         }
 
         if (skinnedMeshRenderer != null && !_currTween.IsActive())
         {
-            _currTween = skinnedMeshRenderer.material.DOColor(c, "_EmissionColor", duration).SetLoops(2, LoopType.Yoyo);
+            _currTween = skinnedMeshRenderer.material.DOColor(c, colorParameter, duration).SetLoops(2, LoopType.Yoyo);
         }
     }
     #endregion

@@ -39,6 +39,7 @@ public class Player : Singleton<Player>//, IDamageable
     [SerializeField] private ClothChanger _clothChanger;
 
     private bool _isAlive = true;
+    private bool _isJumping = false;
 
     private FloatParameter _intense = new FloatParameter();
 
@@ -88,7 +89,7 @@ public class Player : Singleton<Player>//, IDamageable
             transform.position = CheckPointManager.Instance.GetPositionFromLastCheckPoint();
 
             _isAlive = true;
-            animator.SetTrigger("Idle");
+            animator.SetTrigger("Revive");
 
             healthBase.ResetLife();
 
@@ -171,10 +172,22 @@ public class Player : Singleton<Player>//, IDamageable
 
         if (characterController.isGrounded)
         {
+            if (_isJumping)
+            {
+                _isJumping = false;
+                animator.SetTrigger("Land");
+            }
+
             vSpeed = 0;
             if (Input.GetKeyDown(jumpKeyCode))
             {
                 vSpeed = jumpSpeed;
+
+                if (!_isJumping)
+                {
+                    _isJumping = true;
+                    animator.SetTrigger("Jump");
+                }
             }
         }
 
@@ -198,7 +211,7 @@ public class Player : Singleton<Player>//, IDamageable
 
         characterController.Move(speedVector * Time.deltaTime);
 
-        animator.SetBool("IsWalking", isWalking);
+        animator.SetBool("Run", isWalking);
     }
     #endregion
 }
