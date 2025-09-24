@@ -1,0 +1,9 @@
+{
+    "save": 1,
+    "lastLevel": 1,
+    "coins": 24,
+    "health": 3,
+    "munition": 10,
+    "kills": 2,
+    "playerName": "Chrys"
+}

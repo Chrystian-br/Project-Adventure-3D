@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using RysCorp.Core.Singleton;
+using System.IO;
 
 namespace Items
 {
@@ -23,6 +24,8 @@ namespace Items
         public GameObject baseUI;
 
         public int initialMunition = 5;
+
+        public int save = 0;
         #endregion
 
 
@@ -42,6 +45,11 @@ namespace Items
             itemSetups.Find(i => i.itemType == itemType).soInt.count += amount;
         }
 
+        public ItemSetup GetItemByType(ItemType itemType)
+        {
+            return itemSetups.Find(i => i.itemType == itemType);
+        }
+
         public void RemoveItemByType(ItemType itemType, int amount = -1)
         {
             if (amount > 0) return;
@@ -52,6 +60,23 @@ namespace Items
             if (item.soInt.count < 0) item.soInt.count = 0;
 
             UpdateUI();
+        }
+
+        public void LoadItemsFromSave()
+        {
+            var files = SaveManager.Instance.Files;
+            foreach (var i in files)
+            {
+                var setup = JsonUtility.FromJson<SaveSetup>(File.ReadAllText(i));
+
+                if (setup.save == save)
+                {
+                    AddItemByType(ItemType.COIN, setup.coins);
+                    AddItemByType(ItemType.LIFE_PACK, setup.health);
+                    AddItemByType(ItemType.MUNITION, setup.munition);
+                    AddItemByType(ItemType.KILLS, setup.kills);
+                }
+            }
         }
 
         private void UpdateUI()
@@ -79,10 +104,17 @@ namespace Items
 
 
         #region UNITY-METODOS
+        protected override void Awake()
+        {
+            base.Awake();
+            save = SaveManager.Instance.currentSave;
+        }
+
         private void Start()
         {
             Reset();
             inventory.SetActive(false);
+            LoadItemsFromSave();
         }
 
         private void Update()

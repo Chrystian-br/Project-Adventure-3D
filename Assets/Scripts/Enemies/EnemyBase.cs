@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using Animation;
 using Items;
+using UnityEngine.Events;
 
 namespace Enemy
 {
@@ -21,12 +22,17 @@ namespace Enemy
         private float _currentLife;
         private Player _player;
 
+        [Header("Animation")]
         [SerializeField] private AnimationBase _animationBase;
 
         [Header("Start Animation")]
         public float startAnimationDuration = .2f;
         public Ease startAnimationEase = Ease.OutBack;
         public bool startWithBornAnimation = true;
+
+        [Header("Events")]
+        public UnityEvent OnKillEvent;
+
         #endregion
 
 
@@ -53,7 +59,7 @@ namespace Enemy
             if (coll != null) coll.enabled = false;
             PlayAnimationByTrigger(AnimationType.DEATH);
             Destroy(gameObject, 3f);
-
+            OnKillEvent?.Invoke();
         }
 
         public void OnDamage(float f)
