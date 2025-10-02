@@ -22,6 +22,7 @@ namespace Items
 
         [Header("Sounds")]
         public AudioSource audioSource;
+        public SFXType sfxType;
 
         #endregion
 
@@ -29,6 +30,7 @@ namespace Items
         #region METODOS
         protected virtual void Collect()
         {
+            PlaySFX();
             OnCollect();
             Destroy(gameObject);
         }
@@ -39,6 +41,11 @@ namespace Items
             if (audioSource != null) audioSource.Play();
 
             ItemsManager.Instance.AddItemByType(itemType, amount);
+        }
+
+        private void PlaySFX()
+        {
+            SFXPool.Instance.Play(sfxType);
         }
         #endregion
 
@@ -51,7 +58,6 @@ namespace Items
                 Debug.Log(collision);
                 gameObject.transform.GetComponent<SphereCollider>().enabled = false;
                 gameObject.transform.DOScale(0, animationCollectDelay);
-                //gameObject.transform.DOLocalMoveX(collision.transform.position.x, animationCollectDelay);
 
                 Invoke(nameof(Collect), animationCollectDelay - 0.2f);
             }

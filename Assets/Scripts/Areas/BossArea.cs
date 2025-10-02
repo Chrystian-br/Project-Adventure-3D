@@ -12,6 +12,8 @@ public class BossArea : MonoBehaviour
     
     public Color gizmoColor = Color.yellow;
     public GameObject bossHealthBar;
+
+    public MusicPlayer music;
     #endregion
 
 
@@ -31,23 +33,29 @@ public class BossArea : MonoBehaviour
             TurnCameraOn();
 
             bossHealthBar.SetActive(true);
-        }
-    }
 
-    public void OnTriggerStay(Collider col)
-    {
-        lookAtPlayer = true;
+            music.musicType = MusicType.BOSS;
+            music.Play();
+        }
     }
 
     public void OnTriggerExit(Collider col)
     {
-        lookAtPlayer = false;
-        TurnCameraOff();
+        if (col.transform.tag == "Player")
+        {
+            lookAtPlayer = false;
+            TurnCameraOff();
+
+            music.musicType = MusicType.CASUAL;
+            music.Play();
+        }
     }
 
     private void TurnCameraOn()
     {
         bossCamera.SetActive(true);
+
+        Invoke(nameof(TurnCameraOff), 2f);
     }
 
     private void TurnCameraOff()

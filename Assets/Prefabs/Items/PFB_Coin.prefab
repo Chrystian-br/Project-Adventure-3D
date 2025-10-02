@@ -73,6 +73,7 @@ MonoBehaviour:
   animationCollectDelay: 0.5
   pSystem: {fileID: 0}
   audioSource: {fileID: 0}
+  sfxType: 4
 --- !u!1001 &3679014631871118258
 PrefabInstance:
   m_ObjectHideFlags: 0
